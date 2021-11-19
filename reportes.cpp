@@ -125,6 +125,59 @@ int pedir_entero(int limite1, int limite2, char const *stonks) {
 	return x;
 }
 
+void fromProdToNode(){
+	ifstream arch;
+	arch.open(archivo1, ios::in);
+	while(!arch.eof()){
+		int clave;
+		char nombre[21];
+		char familia[21];
+		char medida[21];
+		int pu;
+		int eini;
+		int eact;
+		int smin;
+		int smax;
+		arch >>clave>>nombre>>familia>>medida>>pu>>eini>>eact>>smin>>smax;
+		if(!arch.eof()){
+			pnuevo = new NodeProd;
+			pnuevo -> pclave = clave;
+			strcpy(pnuevo->pnombre, nombre);
+			strcpy(pnuevo -> pfamilia, familia);
+			strcpy(pnuevo -> pmedida, medida);
+			pnuevo -> ppu = pu;
+			pnuevo -> peini = eini;
+			pnuevo -> peact = eact;
+			pnuevo -> psmin = smin;
+			pnuevo -> psmax = smax;
+			pnuevo -> next = NULL;
+			if(pprimero == NULL){
+				pprimero=pnuevo;
+				pultimo=pnuevo;
+			}else{
+				pultimo -> next = pnuevo;
+				pnuevo -> prev = pultimo;
+				pultimo = pnuevo;
+			}
+		}
+	}
+}
+
+void testmuestra(){
+	if (pprimero==NULL){
+		printf("No hay nodos.\n");
+		getche();
+		return;
+	}else{
+		pactual = pprimero;
+		do{
+			printf("%d\n", pactual->pclave);
+			pactual=pactual->next;
+		}while(pactual!=NULL);
+		getche();
+	}
+}
+
 void menuReportes(){
 	char x[2];
 	do{
@@ -141,7 +194,8 @@ void menuReportes(){
 		strcpy(x, pedir_cadena(1, 1, "Indica la opcion"));
 		free(returnStr);
 		if (strcmp(x, "a") == 0){
-
+			fromProdToNode();
+			testmuestra();
 		}else if (strcmp(x, "b") == 0){
 
 		}else if (strcmp(x, "c") == 0){
