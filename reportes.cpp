@@ -9,6 +9,62 @@ int op;
 const char archivo1[30] = "productos.txt";
 const char archivo2[30] = "movimientos.txt";
 
+struct NodeProd{
+	int pclave;
+	char pnombre[21];
+	char pfamilia[21];
+	char pmedida[21];
+	int ppu;
+	int peini;
+	int peact;
+	int psmin;
+	int psmax;
+	NodeProd *next;
+	NodeProd *prev;
+};
+
+NodeProd *primero, *actual, *ultimo, *nuevo, *anterior, *siguiente, *temporal;
+
+struct NodeMov{
+	int mclave;
+	char mfecha[11];
+	int mcantidad;
+	char mmainmov;
+	char msubmov;
+	NodeMov *next;
+	NodeMov *prev;
+};
+
+NodeMov *primero, *actual, *ultimo, *nuevo, *anterior, *siguiente, *temporal;
+
+struct NodeProdSort{
+	int pclave;
+	char pnombre[21];
+	char pfamilia[21];
+	char pmedida[21];
+	int ppu;
+	int peini;
+	int peact;
+	int psmin;
+	int psmax;
+	NodeProdSort *next;
+	NodeProdSort *prev;
+};
+
+NodeProdSort *primero, *actual, *ultimo, *nuevo, *anterior, *siguiente, *temporal;
+
+struct NodeMovSort{
+	int mclave;
+	char mfecha[11];
+	int mcantidad;
+	char mmainmov;
+	char msubmov;
+	NodeMovSort *next;
+	NodeMovSort *prev;
+};
+
+NodeMovSort *primero, *actual, *ultimo, *nuevo, *anterior, *siguiente, *temporal;
+
 char *pedir_cadena(int limite1, int limite2, char const *stonks) {
 	int limiteReal1= limite1+1;
 	int limiteReal2= limite2+1;
