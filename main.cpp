@@ -116,7 +116,8 @@ struct NodeMov{
 NodeMov *mprimero, *mactual, *multimo, *mnuevo, *manterior, *msiguiente, *mtemporal;
 
 //Espacio de inserta_productos ----------------------->
-void inserta_productos(int clave, char nombre[21], char familia[21], char medida[21], int pu, int eini, int eact, int smin, int smax){
+void inserta_productos(int clv, char nmb[21], char fam[21], char med[21], int uni, int ini, int act, int smn, int smx){
+    
 }
 //Espacio del tulas <-----------------------
 
@@ -128,7 +129,7 @@ void inserta_movimientos(int clave, char fecha[11], int cantidad, char mainmov, 
 
 void cargar_productos(std::string filename){
     std::ifstream file;
-    file.open(filename,std::ios::in);
+    file.open("productos.txt",std::ios::in);
     while(!file.eof()){
         file>>pclave>>pnombre>>pfamilia>>pmedida>>ppu>>peini>>peact,psmin,psmax;
         if(!file.eof()) inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
@@ -138,7 +139,7 @@ void cargar_productos(std::string filename){
 
 void cargar_movimientos(std::string filename){
     std::ifstream file;
-    file.open(filename,std::ios::in);
+    file.open("movimientos.txt",std::ios::in);
     while(!file.eof()){
         file>>mclave>>mfecha>>mcantidad>>mmainmov>>msubmov;
         if(!file.eof()) inserta_movimientos(mclave, mfecha, mcantidad, mmainmov, msubmov);
@@ -149,12 +150,12 @@ void cargar_movimientos(std::string filename){
 void guardar_productos(std::string filename){
     if(pprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::out);
+        file.open("productos.txt",std::ios::out);
         file.close();
         return;
     }
     std::ofstream file;
-    file.open(filename,std::ios::out);
+    file.open("productos.txt",std::ios::out);
     pactual = pprimero;
     while(pactual != NULL){
         file<<pclave<<" "<<pnombre<<" "<<pfamilia<<" "<<pmedida<<" "<<ppu<<" "<<peini<<" "<<peact<<" "<<psmin<<" "<<psmax<<std::endl;
@@ -167,12 +168,12 @@ void guardar_productos(std::string filename){
 void guardar_movimientos(std::string filename){
     if(mprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::out);
+        file.open("movimientos.txt",std::ios::out);
         file.close();
         return;
     }
     std::ofstream file;
-    file.open(filename,std::ios::out);
+    file.open("movimientos.txt",std::ios::out);
     mactual = mprimero;
     while(mactual != NULL){
         file<<mclave<<" "<<mfecha<<" "<<mcantidad<<" "<<mmainmov<<" "<<msubmov<<std::endl;
@@ -183,9 +184,6 @@ void guardar_movimientos(std::string filename){
 }
 
 //Espacio del tulas ----------------------->
-void inserta_productos(int clv, char nmb[21], char fam[21], char med[21], int uni, int ini, int act, int smn, int smx){
-    
-}
 
 void menu_productos(){
     char op;
@@ -219,8 +217,7 @@ void menu_productos(){
 
 
 //Espacio del Monas Chinas <----------------
-void inserta_movimientos(int mclave, char mfecha[11], int mcantidad, char mmainmov, char msubmov){
-}
+
 //Espacio del Monas Chinas ---------------->
 
 
