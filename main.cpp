@@ -117,6 +117,7 @@ NodeMov *mprimero, *mactual, *multimo, *mnuevo, *manterior, *msiguiente, *mtempo
 
 //Espacio de inserta_productos ----------------------->
 void inserta_productos(int clave, char nombre[21], char familia[21], char medida[21], int pu, int eini, int eact, int smin, int smax){
+    
 }
 //Espacio del tulas <-----------------------
 
@@ -164,7 +165,7 @@ void cargar_movimientos(std::string filename){
 void guardar_productos(std::string filename){
     if(pprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::out);
+        file.open(filename,std::ios::app);
         file.close();
         return;
     }
@@ -204,14 +205,51 @@ void inserta__productos(int pclave, char pnombre[21], char pfamilia[21], char pm
 
 
 //Espacio del Monas Chinas <----------------
-void entradas_compras(){
+void movimientos(char tipo, char subtipo){
     system("cls");
     int clave = pedir_entero(1,99999,"Indique la clave del producto");
+
+
+    std::string mensaje;
+    switch (subtipo){
+    case 'C': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|         ENTRADAS POR COMPRAS          |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades compradas";
+        break;
+    case 'D': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|        ENTRADAS POR DEVOLUCION        |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades devueltas";
+        break;
+    case 'V': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|          SALIDAS POR VENTAS           |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades vendidas";
+        break;
+    case 'P': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|        SALIDAS POR DEVOLUCION         |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades devueltas";
+        break;
+    case 'M': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|          SALIDAS POR MERMAS           |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades perdidas por merma";
+        break;
+    default : break;
+    }
 
     bool existe;
     pactual = pprimero;
     while(pactual != NULL){
         if(pactual->pclave == clave){
+            std::cout<<pactual->prev<<"vs"<<clave<<std::endl;
             existe = true;
             break;
         }
@@ -222,17 +260,20 @@ void entradas_compras(){
         return;
     }
 
-    int cantidad = pedir_entero(1,999999,"Indique la cantidad de unidades compradas");  
+    int cantidad = pedir_entero(1,999999,mensaje.c_str());  
     time_t now = time(0);
     tm *ltm = localtime(&now);
     std::string fecha =  std::to_string(ltm->tm_mday) + "/" + std::to_string(1 + ltm->tm_mon) + "/" +std::to_string(1900 + ltm->tm_year);
-    char mainmov = 'E';
-    char submov = 'C';
+
+    switch (tipo){
+    case 'E': pactual->peact = pactual->peact + cantidad; break;
+    case 'S': pactual->peact = pactual->peact - cantidad;break;
+    default : break;
+    }
     
-    pactual->peact = pactual->peact + cantidad;
     guardar_productos("productos.txt");
 
-    inserta_movimientos(clave,(char *) fecha.c_str(),cantidad,mainmov,submov);
+    inserta_movimientos(clave,(char *) fecha.c_str(),cantidad,tipo,tipo);
     guardar_movimientos("movimientos.txt");
 
     std::cout<<"El movimiento fue registrado correctamente...";getch();
@@ -249,16 +290,18 @@ void menu_entradas_salidas(){
         std::cout<<"|a) Entradas por compras                |"<<std::endl;
         std::cout<<"|b) Entradas por devolucion de clientes |"<<std::endl;
         std::cout<<"|c) Salidas por ventas                  |"<<std::endl;
-        std::cout<<"|c) Salidas por devolucion a proveedores|"<<std::endl;
-        std::cout<<"|c) Salidas por mermas                  |"<<std::endl;
+        std::cout<<"|d) Salidas por devolucion a proveedores|"<<std::endl;
+        std::cout<<"|e) Salidas por mermas                  |"<<std::endl;
         std::cout<<"|x) Terminar                            |"<<std::endl;
         std::cout<<"|=======================================|"<<std::endl;
         std::cout<<"Indique la opcion deseada: ";
         op = getche();
         switch (op){
-        case 'a': entradas_compras(); break;
-        case 'b': break;
-        case 'c': break;
+        case 'a': movimientos('E','C'); break;
+        case 'b': movimientos('E','D'); break;
+        case 'c': movimientos('S','V'); break;
+        case 'd': movimientos('S','P'); break;
+        case 'e': movimientos('S','M'); break;
         case 'x': break;
         default:
             system("cls");
