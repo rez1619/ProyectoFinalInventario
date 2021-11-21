@@ -130,7 +130,7 @@ void cargar_productos(std::string filename){
     std::ifstream file;
     file.open(filename,std::ios::in);
     while(!file.eof()){
-        file>>pclave>>pnombre>>pfamilia>>pmedida>>ppu>>peini>>peact,psmin,psmax;
+        file>>pclave>>pnombre>>pfamilia>>pmedida>>ppu>>peini>>peact>>psmin>>psmax;
         if(!file.eof()) inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
     }
     file.close();
