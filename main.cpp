@@ -116,7 +116,28 @@ struct NodeMov{
 NodeMov *mprimero, *mactual, *multimo, *mnuevo, *manterior, *msiguiente, *mtemporal;
 
 //Espacio de inserta_productos ----------------------->
-void inserta_productos(int clave, char nombre[21], char familia[21], char medida[21], int pu, int eini, int eact, int smin, int smax){
+void inserta_productos(int clv, char nmb[21], char fam[21], char med[21], int uni, int ini, int act, int smn, int smx){
+    pnuevo=new NodeProd;
+    pnuevo->pclave=clv;
+    strcpy(pnuevo->pnombre,nmb);
+    strcpy(pnuevo->pfamilia,fam);
+    strcpy(pnuevo->pmedida,med);
+    pnuevo->ppu=uni;
+    pnuevo->peini=ini;
+    pnuevo->peact=act;
+    pnuevo->psmin=smn;
+    pnuevo->psmax=smx;
+    pnuevo->next=NULL;
+    pnuevo->prev=NULL;
+    if(pprimero==NULL){
+        pprimero=pnuevo;
+        pultimo=pnuevo;
+    }
+    else{
+        pultimo->next=pnuevo;
+        pnuevo->prev=pultimo;
+        pultimo=pnuevo;
+    }
 }
 //Espacio del tulas <-----------------------
 
@@ -128,7 +149,7 @@ void inserta_movimientos(int clave, char fecha[11], int cantidad, char mainmov, 
 
 void cargar_productos(std::string filename){
     std::ifstream file;
-    file.open(filename,std::ios::in);
+    file.open("productos.txt",std::ios::in);
     while(!file.eof()){
         file>>pclave>>pnombre>>pfamilia>>pmedida>>ppu>>peini>>peact>>psmin>>psmax;
         if(!file.eof()) inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
@@ -138,7 +159,7 @@ void cargar_productos(std::string filename){
 
 void cargar_movimientos(std::string filename){
     std::ifstream file;
-    file.open(filename,std::ios::in);
+    file.open("movimientos.txt",std::ios::in);
     while(!file.eof()){
         file>>mclave>>mfecha>>mcantidad>>mmainmov>>msubmov;
         if(!file.eof()) inserta_movimientos(mclave, mfecha, mcantidad, mmainmov, msubmov);
@@ -149,12 +170,12 @@ void cargar_movimientos(std::string filename){
 void guardar_productos(std::string filename){
     if(pprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::out);
+        file.open("productos.txt",std::ios::out);
         file.close();
         return;
     }
     std::ofstream file;
-    file.open(filename,std::ios::out);
+    file.open("productos.txt",std::ios::out);
     pactual = pprimero;
     while(pactual != NULL){
         file<<pactual->pclave<<" "<<pactual->pnombre<<" "<<pactual->pfamilia<<" "<<pactual->pmedida<<" "<<pactual->ppu<<" "<<pactual->peini<<" "<<pactual->peact<<" "<<pactual->psmin<<" "<<pactual->psmax<<std::endl;
@@ -167,12 +188,12 @@ void guardar_productos(std::string filename){
 void guardar_movimientos(std::string filename){
     if(mprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::out);
+        file.open("movimientos.txt",std::ios::out);
         file.close();
         return;
     }
     std::ofstream file;
-    file.open(filename,std::ios::out);
+    file.open("movimientos.txt",std::ios::out);
     mactual = mprimero;
     while(mactual != NULL){
         file<<mactual->mclave<<" "<<mactual->mfecha<<" "<<mactual->mcantidad<<" "<<mactual->mmainmov<<" "<<mactual->msubmov<<std::endl;
@@ -183,14 +204,58 @@ void guardar_movimientos(std::string filename){
 }
 
 //Espacio del tulas ----------------------->
-void inserta_productos(int pclave, char pnombre[21], char pfamilia[21], char pmedida[21], int ppu, int peini, int peact, int psmin, int psmax){
+
+void altas_productos(){
+    system("cls");
+    std::cout<<"|===================================|"<<std::endl;
+    std::cout<<"|        ALTAS DE PRODUCTOS         |"<<std::endl;
+    std::cout<<"|===================================|"<<std::endl;
+    pclave=pedir_entero(1,99999,      "Indica la clave            del producto");
+    strcpy(pnombre,pedir_cadena (1,20,"Indica el nombre           del producto"));
+    strcpy(pfamilia,pedir_cadena(1,20,"Indica la familia          del producto"));
+    strcpy(pmedida,pedir_cadena (1,20,"Indica la unidad de medida del producto"));
+    ppu=pedir_entero(1,999999,        "Indica el precio unitario  del producto");
+    peini=pedir_entero(1,999999,      "Indica la cantidad inicial del producto");
+    peact=peini;
+    psmin=pedir_entero(1,999999,      "Indica el stock minimo     del producto");
+    psmax=pedir_entero(1,999999,      "Indica el stock maximo     del producto");
+    inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
+}
+
+void menu_productos(){
+    char op;
+    
+    do{
+        system("cls");
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"|           MENU PRODUCTOS          |"<<std::endl;
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"|a) Altas de productos nuevos       |"<<std::endl;
+        std::cout<<"|b) Bajas de productos obsoletos    |"<<std::endl;
+        std::cout<<"|c) Consulta productos por clave    |"<<std::endl;
+        std::cout<<"|d) Consulta productos por familia  |"<<std::endl;
+        std::cout<<"|x) Terminar                        |"<<std::endl;
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"Indique la opcion deseada: ";
+        op=getche();
+        switch (op){
+        case 'a': altas_productos(); break;
+        case 'b': break;
+        case 'c': break;
+        case 'd': break;
+        case 'x': break;
+        default:
+            system("cls");
+            std::cout<<"Opcion no valida..."; getch(); 
+            break;
+        }
+    }while(op != 'x');
 }
 //Espacio del tulas <-----------------------
 
 
 //Espacio del Monas Chinas <----------------
-void inserta_movimientos(int mclave, char mfecha[11], int mcantidad, char mmainmov, char msubmov){
-}
+
 //Espacio del Monas Chinas ---------------->
 
 
@@ -216,7 +281,7 @@ void menu_principal(){
         std::cout<<"Indique la opcion deseada: ";
         op = getche();
         switch (op){
-        case 'a': break;
+        case 'a': menu_productos(); break;
         case 'b': break;
         case 'c': break;
         case 'x': break;
