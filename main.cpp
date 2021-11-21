@@ -115,6 +115,17 @@ struct NodeMov{
 
 NodeMov *mprimero, *mactual, *multimo, *mnuevo, *manterior, *msiguiente, *mtemporal;
 
+//Espacio de inserta_productos ----------------------->
+void inserta_productos(int clave, char nombre[21], char familia[21], char medida[21], int pu, int eini, int eact, int smin, int smax){
+}
+//Espacio del tulas <-----------------------
+
+
+//Espacio de inserta_movimientos <----------------
+void inserta_movimientos(int clave, char fecha[11], int cantidad, char mainmov, char submov){
+}
+//Espacio del Monas Chinas ---------------->
+
 void cargar_productos(std::string filename){
     std::ifstream file;
     file.open(filename,std::ios::in);
@@ -146,7 +157,7 @@ void guardar_productos(std::string filename){
     file.open(filename,std::ios::out);
     pactual = pprimero;
     while(pactual != NULL){
-        file<<pclave<<pnombre<<pfamilia<<pmedida<<ppu<<peini<<peact<<psmin<<psmax<<std::endl;
+        file<<pclave<<" "<<pnombre<<" "<<pfamilia<<" "<<pmedida<<" "<<ppu<<" "<<peini<<" "<<peact<<" "<<psmin<<" "<<psmax<<std::endl;
         pactual = pactual->next;
     }
 
@@ -164,7 +175,7 @@ void guardar_movimientos(std::string filename){
     file.open(filename,std::ios::out);
     mactual = mprimero;
     while(mactual != NULL){
-        file<<mclave<<mfecha<<mcantidad<<mmainmov<<msubmov<<std::endl;
+        file<<mclave<<" "<<mfecha<<" "<<mcantidad<<" "<<mmainmov<<" "<<msubmov<<std::endl;
         mactual = mactual->next;
     }
 
@@ -250,7 +261,6 @@ int main(int argc, char const *argv[]){
     std::ofstream file;
     file.open("productos.txt",std::ios::app);
     file.close();
-    std::ofstream file;
     file.open("movimientos.txt",std::ios::app);
     file.close();
     cargar_productos("productos.txt");
