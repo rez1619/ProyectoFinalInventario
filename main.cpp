@@ -253,7 +253,8 @@ void menu_entradas_salidas(){
         std::cout<<"|c) Salidas por mermas                  |"<<std::endl;
         std::cout<<"|x) Terminar                            |"<<std::endl;
         std::cout<<"|=======================================|"<<std::endl;
-        std::cout<<"Indique la opción deseada: ";std::cin.get();
+        std::cout<<"Indique la opcion deseada: ";
+        op = getche();
         switch (op){
         case 'a': entradas_compras(); break;
         case 'b': break;
