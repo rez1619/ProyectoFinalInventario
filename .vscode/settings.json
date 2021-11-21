@@ -2,8 +2,11 @@
     "files.associations": {
         "iosfwd": "cpp",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "fstream": "cpp"
 =======
+=======
+>>>>>>> Stashed changes
         "array": "cpp",
         "atomic": "cpp",
         "*.tcc": "cpp",
@@ -43,6 +46,9 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }

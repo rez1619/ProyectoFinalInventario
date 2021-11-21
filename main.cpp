@@ -198,7 +198,7 @@ void guardar_movimientos(std::string filename){
 }
 
 //Espacio del tulas ----------------------->
-void inserta_productos(int pclave, char pnombre[21], char pfamilia[21], char pmedida[21], int ppu, int peini, int peact, int psmin, int psmax){
+void inserta__productos(int pclave, char pnombre[21], char pfamilia[21], char pmedida[21], int ppu, int peini, int peact, int psmin, int psmax){
 }
 //Espacio del tulas <-----------------------
 
