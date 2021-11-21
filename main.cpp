@@ -146,7 +146,7 @@ void guardar_productos(std::string filename){
     file.open(filename,std::ios::out);
     pactual = pprimero;
     while(pactual != NULL){
-        file<<pclave<<pnombre<<pfamilia<<pmedida<<ppu<<peini<<peact<<psmin<<psmax<<std::endl;
+        file<<pclave<<" "<<pnombre<<" "<<pfamilia<<" "<<pmedida<<" "<<ppu<<" "<<peini<<" "<<peact<<" "<<psmin<<" "<<psmax<<std::endl;
         pactual = pactual->next;
     }
 
@@ -164,7 +164,7 @@ void guardar_movimientos(std::string filename){
     file.open(filename,std::ios::out);
     mactual = mprimero;
     while(mactual != NULL){
-        file<<mclave<<mfecha<<mcantidad<<mmainmov<<msubmov<<std::endl;
+        file<<mclave<<" "<<mfecha<<" "<<mcantidad<<" "<<mmainmov<<" "<<msubmov<<std::endl;
         mactual = mactual->next;
     }
 
