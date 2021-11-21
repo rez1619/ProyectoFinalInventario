@@ -123,6 +123,21 @@ void inserta_productos(int clave, char nombre[21], char familia[21], char medida
 
 //Espacio de inserta_movimientos <----------------
 void inserta_movimientos(int clave, char fecha[11], int cantidad, char mainmov, char submov){
+    mnuevo = new NodeMov;
+    mnuevo->mclave=clave;
+    strcpy(mnuevo->mfecha,fecha);
+    mnuevo->mcantidad=cantidad;
+    mnuevo->mmainmov=mainmov;
+    mnuevo->msubmov=submov;
+    mnuevo->next = NULL;
+    if(mprimero == NULL){
+        mnuevo->prev = NULL;
+        mprimero = mnuevo;
+    }else{
+        multimo->next = mnuevo;
+        mnuevo->prev = multimo;
+    }
+    multimo = mnuevo;
 }
 //Espacio del Monas Chinas ---------------->
 
@@ -189,8 +204,69 @@ void inserta_productos(int pclave, char pnombre[21], char pfamilia[21], char pme
 
 
 //Espacio del Monas Chinas <----------------
-void inserta_movimientos(int mclave, char mfecha[11], int mcantidad, char mmainmov, char msubmov){
+void entradas_compras(){
+    system("cls");
+    int clave = pedir_entero(1,99999,"Indique la clave del producto");
+
+    bool existe;
+    pactual = pprimero;
+    while(pactual != NULL){
+        if(pactual->pclave == clave){
+            existe = true;
+            break;
+        }
+        pactual = pactual->next;
+    }
+    if(!existe){
+        std::cout<<std::endl<<"ERROR. Clave de producto inexistente...";getch();
+        return;
+    }
+
+    int cantidad = pedir_entero(1,999999,"Indique la cantidad de unidades compradas");  
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    std::string fecha =  std::to_string(ltm->tm_mday) + "/" + std::to_string(1 + ltm->tm_mon) + "/" +std::to_string(1900 + ltm->tm_year);
+    char mainmov = 'E';
+    char submov = 'C';
+    
+    pactual->peact = pactual->peact + cantidad;
+    guardar_productos("productos.txt");
+
+    inserta_movimientos(clave,(char *) fecha.c_str(),cantidad,mainmov,submov);
+    guardar_movimientos("movimientos.txt");
+
+    std::cout<<"El movimiento fue registrado correctamente...";getch();
 }
+
+void menu_entradas_salidas(){
+    char op;
+    
+    do{
+        system("cls");
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|         MENU ENTRADAS/SALIDAS         |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|a) Entradas por compras                |"<<std::endl;
+        std::cout<<"|b) Entradas por devolucion de clientes |"<<std::endl;
+        std::cout<<"|c) Salidas por ventas                  |"<<std::endl;
+        std::cout<<"|c) Salidas por devolucion a proveedores|"<<std::endl;
+        std::cout<<"|c) Salidas por mermas                  |"<<std::endl;
+        std::cout<<"|x) Terminar                            |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"Indique la opción deseada: ";std::cin.get();
+        switch (op){
+        case 'a': entradas_compras(); break;
+        case 'b': break;
+        case 'c': break;
+        case 'x': break;
+        default:
+            system("cls");
+            std::cout<<"Opcion no valida..."; getch(); 
+            break;
+        }
+    }while(op != 'x');
+}
+
 //Espacio del Monas Chinas ---------------->
 
 
@@ -216,7 +292,7 @@ void menu_principal(){
         std::cout<<"Indique la opción deseada: ";std::cin.get();
         switch (op){
         case 'a': break;
-        case 'b': break;
+        case 'b': menu_entradas_salidas();break;
         case 'c': break;
         case 'x': break;
         default:
