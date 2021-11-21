@@ -117,7 +117,27 @@ NodeMov *mprimero, *mactual, *multimo, *mnuevo, *manterior, *msiguiente, *mtempo
 
 //Espacio de inserta_productos ----------------------->
 void inserta_productos(int clv, char nmb[21], char fam[21], char med[21], int uni, int ini, int act, int smn, int smx){
-    
+    pnuevo=new NodeProd;
+    pnuevo->pclave=clv;
+    strcpy(pnuevo->pnombre,nmb);
+    strcpy(pnuevo->pfamilia,fam);
+    strcpy(pnuevo->pmedida,med);
+    pnuevo->ppu=uni;
+    pnuevo->peini=ini;
+    pnuevo->peact=act;
+    pnuevo->psmin=smn;
+    pnuevo->psmax=smx;
+    pnuevo->next=NULL;
+    pnuevo->prev=NULL;
+    if(pprimero==NULL){
+        pprimero=pnuevo;
+        pultimo=pnuevo;
+    }
+    else{
+        pultimo->next=pnuevo;
+        pnuevo->prev=pultimo;
+        pultimo=pnuevo;
+    }
 }
 //Espacio del tulas <-----------------------
 
@@ -185,6 +205,23 @@ void guardar_movimientos(std::string filename){
 
 //Espacio del tulas ----------------------->
 
+void altas_productos(){
+    system("cls");
+    std::cout<<"|===================================|"<<std::endl;
+    std::cout<<"|        ALTAS DE PRODUCTOS         |"<<std::endl;
+    std::cout<<"|===================================|"<<std::endl;
+    pclave=pedir_entero(1,99999,      "Indica la clave            del producto");
+    strcpy(pnombre,pedir_cadena (1,20,"Indica el nombre           del producto"));
+    strcpy(pfamilia,pedir_cadena(1,20,"Indica la familia          del producto"));
+    strcpy(pmedida,pedir_cadena (1,20,"Indica la unidad de medida del producto"));
+    ppu=pedir_entero(1,999999,        "Indica el precio unitario  del producto");
+    peini=pedir_entero(1,999999,      "Indica la cantidad inicial del producto");
+    peact=peini;
+    psmin=pedir_entero(1,999999,      "Indica el stock minimo     del producto");
+    psmax=pedir_entero(1,999999,      "Indica el stock maximo     del producto");
+    inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
+}
+
 void menu_productos(){
     char op;
     
@@ -199,9 +236,10 @@ void menu_productos(){
         std::cout<<"|d) Consulta productos por familia  |"<<std::endl;
         std::cout<<"|x) Terminar                        |"<<std::endl;
         std::cout<<"|===================================|"<<std::endl;
-        std::cout<<"Indique la opción deseada: ";std::cin.get(op);
+        std::cout<<"Indique la opcion deseada: ";
+        op=getche();
         switch (op){
-        case 'a': break;
+        case 'a': altas_productos(); break;
         case 'b': break;
         case 'c': break;
         case 'd': break;
@@ -243,7 +281,7 @@ void menu_principal(){
         std::cout<<"Indique la opcion deseada: ";
         op = getche();
         switch (op){
-        case 'a': break;
+        case 'a': menu_productos(); break;
         case 'b': break;
         case 'c': break;
         case 'x': break;
