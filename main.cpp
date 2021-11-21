@@ -131,7 +131,7 @@ void cargar_productos(std::string filename){
     std::ifstream file;
     file.open("productos.txt",std::ios::in);
     while(!file.eof()){
-        file>>pclave>>pnombre>>pfamilia>>pmedida>>ppu>>peini>>peact,psmin,psmax;
+        file>>pclave>>pnombre>>pfamilia>>pmedida>>ppu>>peini>>peact>>psmin>>psmax;
         if(!file.eof()) inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
     }
     file.close();
@@ -240,7 +240,8 @@ void menu_principal(){
         std::cout<<"|c) Reportes                        |"<<std::endl;
         std::cout<<"|x) Terminar                        |"<<std::endl;
         std::cout<<"|===================================|"<<std::endl;
-        std::cout<<"Indique la opción deseada: ";std::cin.get();
+        std::cout<<"Indique la opcion deseada: ";
+        op = getche();
         switch (op){
         case 'a': break;
         case 'b': break;
