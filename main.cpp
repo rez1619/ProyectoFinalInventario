@@ -290,7 +290,7 @@ void menu_principal(){
         std::cout<<"|c) Reportes                        |"<<std::endl;
         std::cout<<"|x) Terminar                        |"<<std::endl;
         std::cout<<"|===================================|"<<std::endl;
-        std::cout<<"Indique la opción deseada: ";
+        std::cout<<"Indique la opcion deseada: ";
         op = getche();
         switch (op){
         case 'a': break;
