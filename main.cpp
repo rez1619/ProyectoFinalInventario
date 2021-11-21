@@ -172,7 +172,37 @@ void guardar_movimientos(std::string filename){
 }
 
 //Espacio del tulas ----------------------->
-void inserta_productos(int pclave, char pnombre[21], char pfamilia[21], char pmedida[21], int ppu, int peini, int peact, int psmin, int psmax){
+void inserta_productos(int clv, char nmb[21], char fam[21], char med[21], int uni, int ini, int act, int smn, int smx){
+    
+}
+
+void menu_productos(){
+    char op;
+    
+    do{
+        system("cls");
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"|           MENU PRODUCTOS          |"<<std::endl;
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"|a) Altas de productos nuevos       |"<<std::endl;
+        std::cout<<"|b) Bajas de productos obsoletos    |"<<std::endl;
+        std::cout<<"|c) Consulta productos por clave    |"<<std::endl;
+        std::cout<<"|d) Consulta productos por familia  |"<<std::endl;
+        std::cout<<"|x) Terminar                        |"<<std::endl;
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"Indique la opción deseada: ";std::cin.get(op);
+        switch (op){
+        case 'a': break;
+        case 'b': break;
+        case 'c': break;
+        case 'd': break;
+        case 'x': break;
+        default:
+            system("cls");
+            std::cout<<"Opcion no valida..."; getch(); 
+            break;
+        }
+    }while(op != 'x');
 }
 //Espacio del tulas <-----------------------
 
