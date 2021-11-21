@@ -289,7 +289,8 @@ void menu_principal(){
         std::cout<<"|c) Reportes                        |"<<std::endl;
         std::cout<<"|x) Terminar                        |"<<std::endl;
         std::cout<<"|===================================|"<<std::endl;
-        std::cout<<"Indique la opción deseada: ";std::cin.get();
+        std::cout<<"Indique la opción deseada: ";
+        op = getche();
         switch (op){
         case 'a': break;
         case 'b': menu_entradas_salidas();break;
