@@ -3,3 +3,6 @@
 12347 jitomate verduras kilo 1500 6000 5999 10000 12000
 12348 kiwi frutas kilo 10000 2 2 100 10000
 12349 nvidia_gtx_1060_ti electronica piezas 100 1 1 1 999999
+8 Rei_Chiquita Peluches Pieza 100 500 500 120 600
+10 ESP8266 Electronicos Pieza 270 400 400 100 600
+11 Sekiro Videojuegos Pieza 1700 600 600 150 1100

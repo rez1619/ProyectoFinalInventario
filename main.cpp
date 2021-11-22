@@ -116,8 +116,28 @@ struct NodeMov{
 NodeMov *mprimero, *mactual, *multimo, *mnuevo, *manterior, *msiguiente, *mtemporal;
 
 //Espacio de inserta_productos ----------------------->
-void inserta_productos(int clave, char nombre[21], char familia[21], char medida[21], int pu, int eini, int eact, int smin, int smax){
-    
+void inserta_productos(int clv, char nmb[21], char fam[21], char med[21], int uni, int ini, int act, int smn, int smx){
+    pnuevo=new NodeProd;
+    pnuevo->pclave=clv;
+    strcpy(pnuevo->pnombre,nmb);
+    strcpy(pnuevo->pfamilia,fam);
+    strcpy(pnuevo->pmedida,med);
+    pnuevo->ppu=uni;
+    pnuevo->peini=ini;
+    pnuevo->peact=act;
+    pnuevo->psmin=smn;
+    pnuevo->psmax=smx;
+    pnuevo->next=NULL;
+    pnuevo->prev=NULL;
+    if(pprimero==NULL){
+        pprimero=pnuevo;
+        pultimo=pnuevo;
+    }
+    else{
+        pultimo->next=pnuevo;
+        pnuevo->prev=pultimo;
+        pultimo=pnuevo;
+    }
 }
 //Espacio del tulas <-----------------------
 
@@ -144,7 +164,7 @@ void inserta_movimientos(int clave, char fecha[11], int cantidad, char mainmov, 
 
 void cargar_productos(std::string filename){
     std::ifstream file;
-    file.open(filename,std::ios::in);
+    file.open("productos.txt",std::ios::in);
     while(!file.eof()){
         file>>pclave>>pnombre>>pfamilia>>pmedida>>ppu>>peini>>peact>>psmin>>psmax;
         if(!file.eof()) inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
@@ -154,7 +174,7 @@ void cargar_productos(std::string filename){
 
 void cargar_movimientos(std::string filename){
     std::ifstream file;
-    file.open(filename,std::ios::in);
+    file.open("movimientos.txt",std::ios::in);
     while(!file.eof()){
         file>>mclave>>mfecha>>mcantidad>>mmainmov>>msubmov;
         if(!file.eof()) inserta_movimientos(mclave, mfecha, mcantidad, mmainmov, msubmov);
@@ -165,15 +185,15 @@ void cargar_movimientos(std::string filename){
 void guardar_productos(std::string filename){
     if(pprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::app);
+        file.open(filename,std::ios::out);
         file.close();
         return;
     }
     std::ofstream file;
-    file.open(filename,std::ios::out);
+    file.open("productos.txt",std::ios::out);
     pactual = pprimero;
     while(pactual != NULL){
-        file<<pclave<<" "<<pnombre<<" "<<pfamilia<<" "<<pmedida<<" "<<ppu<<" "<<peini<<" "<<peact<<" "<<psmin<<" "<<psmax<<std::endl;
+        file<<pactual->pclave<<" "<<pactual->pnombre<<" "<<pactual->pfamilia<<" "<<pactual->pmedida<<" "<<pactual->ppu<<" "<<pactual->peini<<" "<<pactual->peact<<" "<<pactual->psmin<<" "<<pactual->psmax<<std::endl;
         pactual = pactual->next;
     }
 
@@ -183,15 +203,15 @@ void guardar_productos(std::string filename){
 void guardar_movimientos(std::string filename){
     if(mprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::out);
+        file.open("movimientos.txt",std::ios::out);
         file.close();
         return;
     }
     std::ofstream file;
-    file.open(filename,std::ios::out);
+    file.open("movimientos.txt",std::ios::out);
     mactual = mprimero;
     while(mactual != NULL){
-        file<<mclave<<" "<<mfecha<<" "<<mcantidad<<" "<<mmainmov<<" "<<msubmov<<std::endl;
+        file<<mactual->mclave<<" "<<mactual->mfecha<<" "<<mactual->mcantidad<<" "<<mactual->mmainmov<<" "<<mactual->msubmov<<std::endl;
         mactual = mactual->next;
     }
 
@@ -199,7 +219,52 @@ void guardar_movimientos(std::string filename){
 }
 
 //Espacio del tulas ----------------------->
-void inserta__productos(int pclave, char pnombre[21], char pfamilia[21], char pmedida[21], int ppu, int peini, int peact, int psmin, int psmax){
+
+void altas_productos(){
+    system("cls");
+    std::cout<<"|===================================|"<<std::endl;
+    std::cout<<"|        ALTAS DE PRODUCTOS         |"<<std::endl;
+    std::cout<<"|===================================|"<<std::endl;
+    pclave=pedir_entero(1,99999,      "Indica la clave            del producto");
+    strcpy(pnombre,pedir_cadena (1,20,"Indica el nombre           del producto"));
+    strcpy(pfamilia,pedir_cadena(1,20,"Indica la familia          del producto"));
+    strcpy(pmedida,pedir_cadena (1,20,"Indica la unidad de medida del producto"));
+    ppu=pedir_entero(1,999999,        "Indica el precio unitario  del producto");
+    peini=pedir_entero(1,999999,      "Indica la cantidad inicial del producto");
+    peact=peini;
+    psmin=pedir_entero(1,999999,      "Indica el stock minimo     del producto");
+    psmax=pedir_entero(1,999999,      "Indica el stock maximo     del producto");
+    inserta_productos(pclave,pnombre,pfamilia,pmedida,ppu,peini,peact,psmin,psmax);
+}
+
+void menu_productos(){
+    char op;
+    
+    do{
+        system("cls");
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"|           MENU PRODUCTOS          |"<<std::endl;
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"|a) Altas de productos nuevos       |"<<std::endl;
+        std::cout<<"|b) Bajas de productos obsoletos    |"<<std::endl;
+        std::cout<<"|c) Consulta productos por clave    |"<<std::endl;
+        std::cout<<"|d) Consulta productos por familia  |"<<std::endl;
+        std::cout<<"|x) Terminar                        |"<<std::endl;
+        std::cout<<"|===================================|"<<std::endl;
+        std::cout<<"Indique la opcion deseada: ";
+        op=getche();
+        switch (op){
+        case 'a': altas_productos(); break;
+        case 'b': break;
+        case 'c': break;
+        case 'd': break;
+        case 'x': break;
+        default:
+            system("cls");
+            std::cout<<"Opcion no valida..."; getch(); 
+            break;
+        }
+    }while(op != 'x');
 }
 //Espacio del tulas <-----------------------
 
@@ -207,9 +272,6 @@ void inserta__productos(int pclave, char pnombre[21], char pfamilia[21], char pm
 //Espacio del Monas Chinas <----------------
 void movimientos(char tipo, char subtipo){
     system("cls");
-    int clave = pedir_entero(1,99999,"Indique la clave del producto");
-
-
     std::string mensaje;
     switch (subtipo){
     case 'C': 
@@ -245,11 +307,12 @@ void movimientos(char tipo, char subtipo){
     default : break;
     }
 
+    int clave = pedir_entero(1,99999,"Indique la clave del producto");
+
     bool existe;
     pactual = pprimero;
     while(pactual != NULL){
         if(pactual->pclave == clave){
-            std::cout<<pactual->prev<<"vs"<<clave<<std::endl;
             existe = true;
             break;
         }
@@ -273,10 +336,10 @@ void movimientos(char tipo, char subtipo){
     
     guardar_productos("productos.txt");
 
-    inserta_movimientos(clave,(char *) fecha.c_str(),cantidad,tipo,tipo);
+    inserta_movimientos(clave,(char *) fecha.c_str(),cantidad,tipo,subtipo);
     guardar_movimientos("movimientos.txt");
 
-    std::cout<<"El movimiento fue registrado correctamente...";getch();
+    std::cout<<std::endl<<"El movimiento fue registrado correctamente...";getch();
 }
 
 void menu_entradas_salidas(){
@@ -336,8 +399,8 @@ void menu_principal(){
         std::cout<<"Indique la opcion deseada: ";
         op = getche();
         switch (op){
-        case 'a': break;
-        case 'b': menu_entradas_salidas();break;
+        case 'a': menu_productos(); break;
+        case 'b': menu_entradas_salidas(); break;
         case 'c': break;
         case 'x': break;
         default:
