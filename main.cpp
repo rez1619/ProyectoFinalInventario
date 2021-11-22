@@ -145,6 +145,21 @@ void inserta_productos(int clv, char nmb[21], char fam[21], char med[21], int un
 
 //Espacio de inserta_movimientos <----------------
 void inserta_movimientos(int clave, char fecha[11], int cantidad, char mainmov, char submov){
+    mnuevo = new NodeMov;
+    mnuevo->mclave=clave;
+    strcpy(mnuevo->mfecha,fecha);
+    mnuevo->mcantidad=cantidad;
+    mnuevo->mmainmov=mainmov;
+    mnuevo->msubmov=submov;
+    mnuevo->next = NULL;
+    if(mprimero == NULL){
+        mnuevo->prev = NULL;
+        mprimero = mnuevo;
+    }else{
+        multimo->next = mnuevo;
+        mnuevo->prev = multimo;
+    }
+    multimo = mnuevo;
 }
 //Espacio del Monas Chinas ---------------->
 
@@ -171,7 +186,7 @@ void cargar_movimientos(std::string filename){
 void guardar_productos(std::string filename){
     if(pprimero == NULL){
         std::ofstream file;
-        file.open("productos.txt",std::ios::out);
+        file.open(filename,std::ios::out);
         file.close();
         return;
     }
@@ -374,6 +389,110 @@ void menu_productos(){
 
 
 //Espacio del Monas Chinas <----------------
+void movimientos(char tipo, char subtipo){
+    system("cls");
+    std::string mensaje;
+    switch (subtipo){
+    case 'C': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|         ENTRADAS POR COMPRAS          |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades compradas";
+        break;
+    case 'D': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|        ENTRADAS POR DEVOLUCION        |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades devueltas";
+        break;
+    case 'V': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|          SALIDAS POR VENTAS           |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades vendidas";
+        break;
+    case 'P': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|        SALIDAS POR DEVOLUCION         |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades devueltas";
+        break;
+    case 'M': 
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|          SALIDAS POR MERMAS           |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        mensaje = "Indique la cantidad de unidades perdidas por merma";
+        break;
+    default : break;
+    }
+
+    int clave = pedir_entero(1,99999,"Indique la clave del producto");
+
+    bool existe;
+    pactual = pprimero;
+    while(pactual != NULL){
+        if(pactual->pclave == clave){
+            existe = true;
+            break;
+        }
+        pactual = pactual->next;
+    }
+    if(!existe){
+        std::cout<<std::endl<<"ERROR. Clave de producto inexistente...";getch();
+        return;
+    }
+
+    int cantidad = pedir_entero(1,999999,mensaje.c_str());  
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    std::string fecha =  std::to_string(ltm->tm_mday) + "/" + std::to_string(1 + ltm->tm_mon) + "/" +std::to_string(1900 + ltm->tm_year);
+
+    switch (tipo){
+    case 'E': pactual->peact = pactual->peact + cantidad; break;
+    case 'S': pactual->peact = pactual->peact - cantidad;break;
+    default : break;
+    }
+    
+    guardar_productos("productos.txt");
+
+    inserta_movimientos(clave,(char *) fecha.c_str(),cantidad,tipo,subtipo);
+    guardar_movimientos("movimientos.txt");
+
+    std::cout<<std::endl<<"El movimiento fue registrado correctamente...";getch();
+}
+
+void menu_entradas_salidas(){
+    char op;
+    
+    do{
+        system("cls");
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|         MENU ENTRADAS/SALIDAS         |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"|a) Entradas por compras                |"<<std::endl;
+        std::cout<<"|b) Entradas por devolucion de clientes |"<<std::endl;
+        std::cout<<"|c) Salidas por ventas                  |"<<std::endl;
+        std::cout<<"|d) Salidas por devolucion a proveedores|"<<std::endl;
+        std::cout<<"|e) Salidas por mermas                  |"<<std::endl;
+        std::cout<<"|x) Terminar                            |"<<std::endl;
+        std::cout<<"|=======================================|"<<std::endl;
+        std::cout<<"Indique la opcion deseada: ";
+        op = getche();
+        op = tolower(op);
+        switch (op){
+        case 'a': movimientos('E','C'); break;
+        case 'b': movimientos('E','D'); break;
+        case 'c': movimientos('S','V'); break;
+        case 'd': movimientos('S','P'); break;
+        case 'e': movimientos('S','M'); break;
+        case 'x': break;
+        default:
+            system("cls");
+            std::cout<<"Opcion no valida..."; getch(); 
+            break;
+        }
+    }while(op != 'x');
+}
 
 //Espacio del Monas Chinas ---------------->
 
@@ -402,7 +521,7 @@ void menu_principal(){
         op = tolower(op);
         switch (op){
         case 'a': menu_productos(); break;
-        case 'b': break;
+        case 'b': menu_entradas_salidas(); break;
         case 'c': break;
         case 'x': break;
         default:
