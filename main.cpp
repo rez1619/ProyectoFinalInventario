@@ -360,6 +360,7 @@ void menu_entradas_salidas(){
         std::cout<<"|=======================================|"<<std::endl;
         std::cout<<"Indique la opcion deseada: ";
         op = getche();
+        op = tolower(op);
         switch (op){
         case 'a': movimientos('E','C'); break;
         case 'b': movimientos('E','D'); break;
