@@ -9,6 +9,7 @@
 using namespace std;
 char *returnStr;
 
+
 char *pedir_cadena(int limite1, int limite2, char const *stonks) {
 	int limiteReal1= limite1+1;
 	int limiteReal2= limite2+1;
