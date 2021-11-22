@@ -341,6 +341,17 @@ void consulta_familia(){
     std::cout<<"|        CONSULTA POR FAMILIA       |"<<std::endl;
     std::cout<<"|===================================|"<<std::endl;
     strcpy(pfamilia,pedir_cadena_sinespacios(1,20,"Indica la familia de productos a filtrar"));
+    pactual=pprimero;
+    while(pactual!=NULL){
+        if(strcmp(pfamilia,pactual->pfamilia)==0){
+            break;
+        }
+        pactual=pactual->next;
+    }
+    if(pactual == NULL){
+        std::cout<<std::endl<<"ERROR. Familia de producto inexistente...";getch();
+        return;
+    }
     printf("Clave                Nombre               Familia              U.Medida    Preciounitario   E.inicial   E.actual   StockMin   StockMax\n");
     printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
     //      12345  123456789/123456789/  123456789/123456789/  123456789/123456789/          $ 123456      123456     123456     123456     123456
