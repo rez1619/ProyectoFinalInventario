@@ -4,6 +4,7 @@
 #include <conio.h>
 #include <ctime>
 #include <String.h>
+#include <cctype>
 
 using namespace std;
 char *returnStr;
@@ -398,6 +399,7 @@ void menu_principal(){
         std::cout<<"|===================================|"<<std::endl;
         std::cout<<"Indique la opcion deseada: ";
         op = getche();
+        op = tolower(op);
         switch (op){
         case 'a': menu_productos(); break;
         case 'b': menu_entradas_salidas(); break;
