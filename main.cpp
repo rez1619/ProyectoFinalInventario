@@ -259,6 +259,45 @@ void altas_productos(){
     guardar_productos("productos.txt");
 }
 
+
+void borrar_movimientos(int clave){
+    bool existe = false;
+    do{
+        std::cout<<"siuuuu";
+        if(mprimero == NULL){
+            break;
+        }
+        mactual = mprimero;
+        while(mactual!=NULL){
+            if(clave == mactual->mclave){
+                existe = true;
+                break;
+            }
+            existe=false;
+            mactual = mactual->next;
+        }
+        if(!existe){
+            return;
+        }
+        if(mactual == mprimero && mactual == multimo){
+            mprimero = NULL;
+            multimo = NULL;
+        }else if(mactual == mprimero){
+            mprimero = mactual->next;
+            mprimero->prev = NULL;
+        }else if(mactual == multimo){
+            multimo = mactual->prev;
+            multimo->next = NULL;
+        }else{
+            mactual->prev->next = mactual->next;
+            mactual->next->prev = mactual->prev;
+        }
+        delete mactual;
+        guardar_movimientos("movimientos.txt");
+    }while(existe);
+    
+}
+
 void bajas_productos(){
     system("cls");
     std::cout<<"|===================================|"<<std::endl;
@@ -308,6 +347,7 @@ void bajas_productos(){
         }
     }
     guardar_productos("productos.txt");
+    borrar_movimientos(pclave);
 }
 
 void consulta_productos(){
