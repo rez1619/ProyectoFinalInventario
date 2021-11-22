@@ -356,6 +356,7 @@ void menu_productos(){
         std::cout<<"|===================================|"<<std::endl;
         std::cout<<"Indique la opcion deseada: ";
         op=getche();
+        op=tolower(op);
         switch (op){
         case 'a': altas_productos(); break;
         case 'b': bajas_productos(); break;
