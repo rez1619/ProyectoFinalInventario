@@ -680,6 +680,7 @@ void inserta_movimientos_sort(int clave, char fecha[11], int cantidad, char main
 }
 
 void muestraProd(){
+    system("cls");
 	if (spprimero==NULL){
 		printf("Error! No hay nodos para mostrar. Esto puede significar que no hay registros, o no hay registros para el filtro especificado.\n");
 		getche();
@@ -700,6 +701,7 @@ void muestraProd(){
 }
 
 void muestraMovi(){
+    system("cls");
 	if (smprimero==NULL){
 		printf("Error! No hay nodos para mostrar. Esto puede significar que no hay registros, o no hay registros para el filtro especificado.\n");
 		getche();
@@ -950,6 +952,7 @@ void sortFecha(int pclave){
 void menu_reportes(){
 	char x[2];
 	do{
+        system("cls");
 		printf("\n=================\n");
 		printf("==MENU REPORTES==\n");
 		printf("=================\n");
