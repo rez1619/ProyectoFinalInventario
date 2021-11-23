@@ -1,3 +1,7 @@
+// A01769960 Carlos Eduardo Jiménez Santiago
+// A01769659 Fernando Reséndiz Bautista
+// A01367464 Hlib Korzhynskyy
+
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -6,7 +10,6 @@
 #include <String.h>
 #include <cctype>
 #include <ctype.h>
-#include <iostream>
 #include <string>
 
 using namespace std;
@@ -190,7 +193,7 @@ void cargar_movimientos(std::string filename){
 void guardar_productos(std::string filename){
     if(pprimero == NULL){
         std::ofstream file;
-        file.open(filename,std::ios::out);
+        file.open(filename.c_str(),std::ios::out);
         file.close();
         return;
     }
@@ -500,7 +503,9 @@ void movimientos(char tipo, char subtipo){
     int cantidad = pedir_entero(1,999999,mensaje.c_str());  
     time_t now = time(0);
     tm *ltm = localtime(&now);
-    std::string fecha =  std::to_string(ltm->tm_mday) + "/" + std::to_string(1 + ltm->tm_mon) + "/" +std::to_string(1900 + ltm->tm_year);
+    char fecharr[11];
+    sprintf(fecharr, "%d/%d/%d", (ltm->tm_mday), (1 + ltm->tm_mon), (1900 + ltm->tm_year));
+    std::string fecha(fecharr);
 
     switch (tipo){
     case 'E': pactual->peact = pactual->peact + cantidad; break;
@@ -917,15 +922,15 @@ void sortFecha(int pclave){
                     mess = fechas.substr(3, 2);
                     yean = fechan.substr(6, 4);
                     yeas = fechas.substr(6, 4);
-                    if (std::stoi(yean) < std::stoi(yeas)){
+                    if (atoi(yean.c_str()) < atoi(yeas.c_str())){
                         inserta_movimientos_sort(mactual->mclave, mactual->mfecha, mactual->mcantidad, mactual->mmainmov, mactual->msubmov, pos);
                         check = 1;
                         break;
-                    }else if (std::stoi(yean) == std::stoi(yeas) && std::stoi(mesn) < std::stoi(mess)){
+                    }else if (atoi(yean.c_str()) == atoi(yeas.c_str()) && atoi(mesn.c_str()) < atoi(mess.c_str())){
                         inserta_movimientos_sort(mactual->mclave, mactual->mfecha, mactual->mcantidad, mactual->mmainmov, mactual->msubmov, pos);
                         check = 1;
                         break;
-                    }else if (std::stoi(mesn) == std::stoi(mess) && std::stoi(dian) <= std::stoi(dias)){
+                    }else if (atoi(mesn.c_str()) == atoi(mess.c_str()) && atoi(dian.c_str()) <= atoi(dias.c_str())){
                         inserta_movimientos_sort(mactual->mclave, mactual->mfecha, mactual->mcantidad, mactual->mmainmov, mactual->msubmov, pos);
                         check = 1;
                         break;
