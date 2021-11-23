@@ -950,7 +950,7 @@ void sortFecha(int pclave){
 }
 
 void menu_reportes(){
-	char x[2];
+	char op;
 	do{
         system("cls");
 		printf("\n=================\n");
@@ -963,23 +963,25 @@ void menu_reportes(){
 		printf("e) Productos a Ofertar ordenado por existencia\n");
 		printf("f) Listado de movimientos de un producto ordenado por fecha\n");
 		printf("x) Terminar\n\n");
-		strcpy(x, pedir_cadena(1, 1, "Indica la opcion"));
-		free(returnStr);
-		if (strcmp(x, "a") == 0){
+		std::cout<<"Indique la opcion deseada: ";
+        op = getche();
+        op = tolower(op);
+		if (op=='a'){
 			sortClave();
 			muestraProd();
-		}else if (strcmp(x, "b") == 0){
+		}else if (op=='b'){
 			sortNombre();
 			muestraProd();
-		}else if (strcmp(x, "c") == 0){
+		}else if (op=='c'){
 			consulta_familia();
-		}else if (strcmp(x, "d") == 0){
+		}else if (op=='d'){
 			sortExistenciaOr();
 			muestraProd();
-		}else if (strcmp(x, "e") == 0){
+		}else if (op=='e'){
 			sortExistenciaOf();
 			muestraProd();
-		}else if (strcmp(x, "f") == 0){
+		}else if (op=='f'){
+            system("cls");
 			pclave=pedir_entero(1,99999,"Indica la clave del producto a buscar");
     		if(!busca_clave(pclave)){
 				printf("\nError, la clave no existe en productos.\n");
@@ -988,13 +990,13 @@ void menu_reportes(){
 			sortFecha(pclave);
 			muestraMovi();
 			}
-		}else if (strcmp(x, "x") == 0){
+		}else if (op=='x'){
 			printf("Terminado...\n");
 		}else{
 			printf("Opcion Incorrecta...\n");
 			getche();
 		}
-	}while(strcmp(x, "x") != 0);
+	}while(op!='x');
 }
 
 //Espacio del Hlib <------------------------
